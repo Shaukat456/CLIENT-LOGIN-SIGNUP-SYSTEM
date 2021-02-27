@@ -1,6 +1,7 @@
 const mongoose=require('mongoose')
 // const validator=require('validator')
 const bcrpyt=require("bcryptjs")
+const { default: validator } = require('validator')
 
 
 const VisitorSchema=mongoose.Schema({
@@ -11,7 +12,13 @@ const VisitorSchema=mongoose.Schema({
     },
     email:{
         type:String,
-        unique:true
+        unique:true,
+        // validate(value){
+        //     if(!validator.isEmail(value)){
+        //         throw new Error("INVALID EMAIL")
+        //     }
+            
+        // }
     },
     password:{
         type:String,
@@ -27,13 +34,11 @@ const VisitorSchema=mongoose.Schema({
 })
 
 
-// VisitorSchema.pre("save",async function(next){
-//     if(this.isModified("password")){
-//         const passwordhast=await bcrypt.hash(password,10);
-//         console.log(this.password);
-//         this.password=await bcrpyt.hash(this.password ,10)
-//     }
-// })
+VisitorSchema.pre("save",async function(next){
+    if(this.isModified("password")){
+        this.password=await bcrpyt.hash(this.password ,10)
+    }
+})
 
 
 

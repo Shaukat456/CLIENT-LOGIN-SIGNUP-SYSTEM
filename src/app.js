@@ -4,7 +4,7 @@ const port = process.env.PORT || 80
 require('./db/conn')
 const User = require('./models/user')
 const { json } = require('body-parser')
-// const bcrypt=require("bcrypt")
+const bcrypt=require("bcryptjs")
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 const path = require('path')
@@ -58,31 +58,54 @@ app.post('/SignUP', async (req, res) => {
 // LOGIN SYSTEM 
 
 app.post('/login', async (req, res) => {
-    const { email, pass } = req.body; // HTML "name" property will be set to email
-    try {
-        const FindUser = await User.findOne({ email: email }, async (err, docs) => {
-            if (err) {
-                return res.send(err)
-            }
-            else {
-                return [
-                    res.send(docs),
-                    console.log(docs)
-                ]
+    const {email ,password}=req.body;
+   try {
+    const useremail=await User.findOne({email:email});
 
-            }
+    const ismatch= await  bcrypt.compare(password,useremail.password)
 
-
-
-        })
-
-    } catch (error) {
-        res.send(error)
-        console.log(error)
-        res.send('user not found')
-
+    if(ismatch){
+        res.status(200).send('LOGIN SUCCESSFULLY')
     }
+    else{
+        return res.send('invalid password details')
+    }
+
+   } catch (error) {
+    res.status(404).send('LOGIN ERROR')
+       
+   }
+
 })
+
+
+
+
+//     const { email, pass } = req.body; // HTML "name" property will be set to email
+//     try {
+//         const FindUser = await User.findOne({ email: email }, async (err, docs) => {
+//             if (err) {
+//                 return res.send(err)
+//             }
+//             else {
+//                 return [
+//                     res.send(docs),
+//                     console.log(docs)
+//                 ]
+
+//             }
+
+
+
+//         })
+
+//     } catch (error) {
+//         res.send(error)
+//         console.log(error)
+//         res.send('user not found')
+
+//     }
+// })
 
 
 
