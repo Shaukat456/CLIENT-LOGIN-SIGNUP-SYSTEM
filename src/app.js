@@ -5,12 +5,12 @@ require('./db/conn')
 const User = require('./models/user')
 const { json } = require('body-parser')
 const bcrypt = require("bcryptjs")
+const bodyparser=require('body-parser')
 
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
-app.set('view engine', 'hbs')
-
+app.use(bodyparser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
     res.render('index')
@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 
 
 // Sign Up Process
-app.post('/SignUP', async (req, res) => {
+app.post('/Register', async (req, res) => {
 
     const { email } = req.body; // HTML "name" property will be set to email
 
@@ -44,7 +44,7 @@ app.post('/SignUP', async (req, res) => {
 
 
     } catch (error) {
-        res.send('Sign Up Error')
+        res.send(error)
         console.log(error);
     }
 

@@ -4,7 +4,7 @@ const bcrpyt=require("bcryptjs")
 const { default: validator } = require('validator')
 
 
-const VisitorSchema=mongoose.Schema({
+const FreelancersSchema=mongoose.Schema({
     fullname:{
         type:String,
         required:true,
@@ -14,6 +14,9 @@ const VisitorSchema=mongoose.Schema({
         type:String,
         unique:true,
         trim: true,
+        lowercase:true,
+        required:true
+        // validate: [{ validator: value => isEmail(value), msg: 'Invalid email.' }]
         // validate(value){
         //     if(!validator.isEmail(value)){
         //         throw new Error("INVALID EMAIL")
@@ -21,23 +24,29 @@ const VisitorSchema=mongoose.Schema({
             
         // }
     },
+    username:{
+        type:String,
+        required:true,
+        unique:true
+    },
+    
     password:{
         type:String,
         required:true
         
-        
-        
     },
-    phonenumber:{
-        type:Number,
+   confirmpass:{
+        type:String,
+        // required:true
     }
     
 })
 
 
-VisitorSchema.pre("save",async function(next){
+FreelancersSchema.pre("save",async function(next){
     if(this.isModified("password")){
         this.password=await bcrpyt.hash(this.password ,10)
+        this.confirmpassword=undefined;
     }
 })
 
@@ -45,7 +54,7 @@ VisitorSchema.pre("save",async function(next){
 
 
 
-const User=new mongoose.model('User',VisitorSchema)
+const User=new mongoose.model('User',FreelancersSchema)
 
 
 // VisitorSchema.pre('save', function(next){
