@@ -4,14 +4,12 @@ const port = process.env.PORT || 80
 require('./db/conn')
 const User = require('./models/user')
 const { json } = require('body-parser')
-const bcrypt=require("bcryptjs")
+const bcrypt = require("bcryptjs")
+
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
-const path = require('path')
 
-// path.join(__dirname,'.')
 app.set('view engine', 'hbs')
-// app.use(path.join(__dirname,))
 
 
 app.get('/', (req, res) => {
@@ -29,27 +27,30 @@ app.post('/SignUP', async (req, res) => {
 
 
     try {
-        User.find({ email: { $ne: req.body.email } }, async function (err, user) {
-            if (err) {
-                return res.status(400).json(
-                    { msg: "Email  Already Exist" })
-            }
-            else {
+        const FindEmail = await User.find({ email: email });
 
-                //IF NO ERROR THAN REGISTER THE USER
+        let user = await User.findOne({ email: req.body.email })
+        if (user) return res.status(400).send('Email  Already Exist')
 
-                const RegUser = new User(req.body)
-                const Saved = await RegUser.save()
-                console.log(Saved)
-                res.send([Saved, 'USER REGISTERED'])
 
-            }
+        else {
+            //IF NO ERROR THAN REGISTER THE USER
+            const RegUser = new User(req.body)
+            const Saved = await RegUser.save()
+            console.log(Saved)
+            res.send([Saved, 'USER REGISTERED'])
 
-        })
+        }
+
+
     } catch (error) {
-        res.send(error)
+        res.send('Sign Up Error')
         console.log(error);
     }
+
+
+
+
 
 
 }
@@ -58,23 +59,23 @@ app.post('/SignUP', async (req, res) => {
 // LOGIN SYSTEM 
 
 app.post('/login', async (req, res) => {
-    const {email ,password}=req.body;
-   try {
-    const useremail=await User.findOne({email:email});
+    const { email, password } = req.body;
+    try {
+        const useremail = await User.findOne({ email: email });
 
-    const ismatch= await  bcrypt.compare(password,useremail.password)
+        const ismatch = await bcrypt.compare(password, useremail.password)
 
-    if(ismatch){
-        res.status(200).send('LOGIN SUCCESSFULLY')
+        if (ismatch) {
+            res.status(200).send('LOGIN SUCCESSFULLY')
+        }
+        else {
+            return res.send('INVALID PASSWORD')
+        }
+
+    } catch (error) {
+        res.status(404).send('LOGIN ERROR')
+
     }
-    else{
-        return res.send('invalid password details')
-    }
-
-   } catch (error) {
-    res.status(404).send('LOGIN ERROR')
-       
-   }
 
 })
 
