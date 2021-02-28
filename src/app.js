@@ -48,7 +48,7 @@ app.post('/Register', async (req, res) => {
                 const Saved = await RegUser.save()
                 console.log(Saved)
                 // res.send([Saved, 'USER REGISTERED'])
-    res.sendFile((path.join(__dirname,'public/home.html')));
+                res.sendFile((path.join(__dirname,'public/home.html')));
                 
                 console.log([Saved, 'USER REGISTERED'])
 
