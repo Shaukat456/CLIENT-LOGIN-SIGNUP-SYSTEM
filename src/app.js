@@ -6,14 +6,25 @@ const User = require('./models/user')
 const { json } = require('body-parser')
 const bcrypt = require("bcryptjs")
 const bodyparser=require('body-parser')
+const path=require('path')
+
+// app.use(express.static('assets'));
 
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
-app.use(bodyparser.urlencoded({ extended: true }));
+console.log(path.join(__dirname,'public'));
+    app.use(express.static(path.join(__dirname,"public")))
+// app.use(bodyparser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-    res.render('index')
+    res.sendFile((path.join(__dirname,'public/home.html')));
+    // res.send('home.html must served here')
+    // console.log((path.join(__dirname,'/home')));
+    // console.log((path.join(__dirname,'../../public')));
+ 
+   
+    
 
 })
 
@@ -23,9 +34,6 @@ app.post('/Register', async (req, res) => {
 
     const { email } = req.body; // HTML "name" property will be set to email
 
-
-
-
     try {
         const FindEmail = await User.find({ email: email });
 
@@ -34,11 +42,20 @@ app.post('/Register', async (req, res) => {
 
 
         else {
-            //IF NO ERROR THAN REGISTER THE USER
-            const RegUser = new User(req.body)
-            const Saved = await RegUser.save()
-            console.log(Saved)
-            res.send([Saved, 'USER REGISTERED'])
+            if(req.body.password==req.body.confirmpass){
+             //IF NO ERROR THAN REGISTER THE USER
+                const RegUser = new User(req.body)
+                const Saved = await RegUser.save()
+                console.log(Saved)
+                // res.send([Saved, 'USER REGISTERED'])
+    res.sendFile((path.join(__dirname,'public/home.html')));
+                
+                console.log([Saved, 'USER REGISTERED'])
+
+            }
+            else{
+                return res.send('Confirm password does not match Password')
+            }
 
         }
 

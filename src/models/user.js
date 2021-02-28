@@ -8,7 +8,7 @@ const FreelancersSchema=mongoose.Schema({
     fullname:{
         type:String,
         required:true,
-        unique:true
+        // unique:true
     },
     email:{
         type:String,
@@ -46,7 +46,7 @@ const FreelancersSchema=mongoose.Schema({
 FreelancersSchema.pre("save",async function(next){
     if(this.isModified("password")){
         this.password=await bcrpyt.hash(this.password ,10)
-        this.confirmpassword=undefined;
+        this.confirmpass=undefined;
     }
 })
 
