@@ -46,10 +46,17 @@ app.post('/Register', async (req, res) => {
             if(req.body.password==req.body.confirmpass){
              //IF NO ERROR THAN REGISTER THE USER
                 const RegUser = new User(req.body)
+
+
+                const token = await RegUser.genAuthToken()
+                console.log(token);
+
                 const Saved = await RegUser.save()
                 // res.send([Saved, 'USER REGISTERED'])
                 res.sendFile((path.join(__dirname,'public/home.html')));
                 console.log([Saved, 'USER REGISTERED'])
+            // const token =await User.genAuthToken()
+
 
             }
 
@@ -61,7 +68,6 @@ app.post('/Register', async (req, res) => {
 
 
         }
-            const token =await User.genAuthToken()
 
 
     } catch (error) {

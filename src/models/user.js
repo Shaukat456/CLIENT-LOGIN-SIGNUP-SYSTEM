@@ -41,18 +41,27 @@ const FreelancersSchema=mongoose.Schema({
    confirmpass:{
         type:String,
         // required:true
-    }
+    },
+    tokens:[{
+        token:{
+            type:String,
+            required:true
+        }
+    }]
     
 })
 
 
-FreelancersSchema.methods.genAuthToken=async()=>{
-    console.log(this._id)
+FreelancersSchema.methods.genAuthToken= async function() {
+    // console.log(this._id)
     try {
-        const token= await jwt.sign({_id:this._id},"thisisakeyofuserathenticationandverification")
-        console.log(token);
+        const tokenGen=  jwt.sign({_id:this._id},"thisisakeyofuserathenticationandverification")
+        this.tokens=this.tokens.concat({token:tokenGen})
+        // console.log(token);
+         await this.save()
+        return tokenGen
     } catch (error) {
-        res.send(error)
+        // res.send(error)
         console.log('error'+ error)
     }
 }
