@@ -2,6 +2,9 @@ const mongoose=require('mongoose')
 // const validator=require('validator')
 const bcrpyt=require("bcryptjs")
 const { default: validator } = require('validator')
+const jwt=require('jsonwebtoken')
+
+
 
 
 const FreelancersSchema=mongoose.Schema({
@@ -43,11 +46,23 @@ const FreelancersSchema=mongoose.Schema({
 })
 
 
+FreelancersSchema.methods.genAuthToken=async()=>{
+    try {
+        const token= await jwt.sign({_id:this._id.toString()},"thisisakeyofuserathenticationandverification")
+        console.log(token);
+    } catch (error) {
+        res.send(error)
+        console.log('error'+ error)
+    }
+}
+
+
 FreelancersSchema.pre("save",async function(next){
     if(this.isModified("password")){
         this.password=await bcrpyt.hash(this.password ,10)
         this.confirmpass=undefined;
     }
+    next()
 })
 
 
@@ -55,30 +70,6 @@ FreelancersSchema.pre("save",async function(next){
 
 
 const User=new mongoose.model('User',FreelancersSchema)
-
-
-// VisitorSchema.pre('save', function(next){
-//     var user = this ;
-//     User.find($or [{fullname: user.fullname}, {email: user.email}],
-//               function(err, users){
-//       if(err) {
-//         return next(err);
-//       } else if(users) {
-//         if (_.find(users , {email: user.email})){
-//           user.invalidate('email', 'email is already registered'); 
-//           next( new Error("email is already registered"));
-//         }
-//         else if (_.find(users , {fullname: user.fullname})){
-//           user.invalidate('username', 'username is already taken'); 
-//           next( new Error("username is already taken"));
-//         }
-//       }
-//       else{
-//         next();
-//       }   
-//     })
-//   })
-
 
 
 

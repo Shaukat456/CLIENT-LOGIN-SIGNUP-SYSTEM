@@ -7,6 +7,7 @@ const { json } = require('body-parser')
 const bcrypt = require("bcryptjs")
 const bodyparser=require('body-parser')
 const path=require('path')
+const jwt=require('jsonwebtoken')
 
 // app.use(express.static('assets'));
 
@@ -46,18 +47,21 @@ app.post('/Register', async (req, res) => {
              //IF NO ERROR THAN REGISTER THE USER
                 const RegUser = new User(req.body)
                 const Saved = await RegUser.save()
-                console.log(Saved)
                 // res.send([Saved, 'USER REGISTERED'])
                 res.sendFile((path.join(__dirname,'public/home.html')));
-                
                 console.log([Saved, 'USER REGISTERED'])
 
             }
+
+            
+
             else{
                 return res.send('Confirm password does not match Password')
             }
 
+
         }
+            const token =await User.genAuthToken()
 
 
     } catch (error) {
