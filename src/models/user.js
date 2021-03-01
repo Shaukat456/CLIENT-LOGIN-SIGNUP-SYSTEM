@@ -47,8 +47,9 @@ const FreelancersSchema=mongoose.Schema({
 
 
 FreelancersSchema.methods.genAuthToken=async()=>{
+    console.log(this._id)
     try {
-        const token= await jwt.sign({_id:this._id.toString()},"thisisakeyofuserathenticationandverification")
+        const token= await jwt.sign({_id:this._id},"thisisakeyofuserathenticationandverification")
         console.log(token);
     } catch (error) {
         res.send(error)
