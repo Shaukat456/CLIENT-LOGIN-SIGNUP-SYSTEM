@@ -10,6 +10,7 @@ const path = require('path')
 const jwt = require('jsonwebtoken')
 const cookieParser = require('cookie-parser')
 const auth = require('../src/middleware/auth')
+const Client=require('./models/client')
 
 // app.use(express.static('assets'));
 
@@ -31,6 +32,105 @@ app.get('/', (req, res) => {
 
 
 })
+
+
+
+app.post("/clientReg",async(req,res)=>{
+
+
+const { cemail } = req.body; // HTML "name" property will be set to email
+
+try {
+    const cFindEmail = await Client.find({ email: cemail });
+
+    let fuser = await Client.findOne({ email: req.body.cemail })
+    if (fuser) return res.status(400).send('Email  Already Exist')
+
+
+    else {
+        if (req.body.cpassword == req.body.cconfirmpass) {
+            //IF NO ERROR THAN REGISTER THE USER
+            const cRegUser = new Client(req.body)
+            
+
+
+            //generating Token
+            const ftoken = await cRegUser.genAuthToken()
+            console.log(ftoken);
+
+            res.cookie('Freelance_jwt', ftoken)
+
+            const cSaved = await cRegUser.save()
+            // res.send([Saved, 'USER REGISTERED'])
+            res.sendFile((path.join(__dirname, 'public/home.html')));
+            console.log([cSaved, 'USER REGISTERED'])
+            // const token =await User.genAuthToken()
+
+
+        }
+
+
+
+        else {
+            return res.send('Confirm password does not match Password')
+        }
+
+
+    }
+
+
+} catch (error) {
+    res.send(error)
+    console.log(error);
+}
+
+
+
+
+
+
+}
+)
+
+
+app.post('/clientLogin', async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        const useremail = await User.findOne({ email: email });
+
+        const ismatch = await bcrypt.compare(password, useremail.password)
+
+      
+
+
+        if (ismatch) {
+            // res.status(200).send('LOGIN SUCCESSFULLY')
+            // console.log('LOGIN SUCCESSFULLY')
+            //   const token1 = await RegUser.genAuthToken()
+
+            console.log('login');
+            const token = await useremail.genAuthToken()
+            // console.log(token);
+            res.cookie('jwt', token, {
+                httpOnly: true
+            })
+            res.sendFile((path.join(__dirname, 'public/Freelancer.html'))); //Freelancers page would placed here instead of HOME PAGE
+
+            console.log(` this is cokkie     ${req.cookies.jwt}`);
+            console.log('token generated');
+        }
+        else {
+            return res.send('INVALID PASSWORD')
+        }
+
+    } catch (error) {
+        res.status(404).send('LOGIN ERROR')
+
+    }
+
+})
+
+
 
 app.get('/Freelance', auth, (req, res) => {
     res.send('SECRET PAGE SHOWN TO AUTHENTIC USER')
