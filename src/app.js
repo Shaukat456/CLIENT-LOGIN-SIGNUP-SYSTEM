@@ -47,7 +47,7 @@ app.post('/Register', async (req, res) => {
              //IF NO ERROR THAN REGISTER THE USER
                 const RegUser = new User(req.body)
 
-
+                //generating Token
                 const token = await RegUser.genAuthToken()
                 console.log(token);
 
@@ -92,8 +92,13 @@ app.post('/login', async (req, res) => {
 
         const ismatch = await bcrypt.compare(password, useremail.password)
 
+        const token = await useremail.genAuthToken()
+        console.log(token);
+
         if (ismatch) {
             res.status(200).send('LOGIN SUCCESSFULLY')
+            //   const token1 = await RegUser.genAuthToken()
+             console.log('login');
         }
         else {
             return res.send('INVALID PASSWORD')
