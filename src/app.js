@@ -198,7 +198,7 @@ app.post('/Register', async (req, res) => {
 
 // LOGIN SYSTEM 
 
-app.post('/login', async (req, res) => {
+app.post('/login',auth ,async (req, res) => {
     const { email, password } = req.body;
     try {
         const useremail = await User.findOne({ email: email });
@@ -219,9 +219,10 @@ app.post('/login', async (req, res) => {
             res.cookie('jwt', token, {
                 httpOnly: true
             })
-            res.sendFile((path.join(__dirname, 'public/Freelancer.html'))); //Freelancers page would placed here instead of HOME PAGE
+            res.sendFile((path.join(__dirname, 'public/dashboard.html'))); //Freelancers page would placed here instead of HOME PAGE
 
             console.log(` this is cokkie     ${req.cookies.jwt}`);
+            // alert(` this is cokkie `);
             console.log('token generated');
         }
         else {
