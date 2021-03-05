@@ -35,7 +35,7 @@ app.get('/', (req, res) => {
 
 
 
-app.post("/clientReg",async(req,res)=>{
+app.post("/clientReg",auth,async(req,res)=>{
 
 
 const { cemail } = req.body; // HTML "name" property will be set to email
@@ -43,12 +43,12 @@ const { cemail } = req.body; // HTML "name" property will be set to email
 try {
     const cFindEmail = await Client.find({ email: cemail });
 
-    let fuser = await Client.findOne({ email: req.body.cemail })
+    let fuser = await Client.findOne({ email: req.body.email })
     if (fuser) return res.status(400).send('Email  Already Exist')
 
 
     else {
-        if (req.body.cpassword == req.body.cconfirmpass) {
+        if (req.body.password == req.body.confirmpass) {
             //IF NO ERROR THAN REGISTER THE USER
             const cRegUser = new Client(req.body)
             
@@ -96,14 +96,14 @@ try {
 app.post('/clientLogin', async (req, res) => {
     const { email, password } = req.body;
     try {
-        const useremail = await User.findOne({ email: email });
+        const useremail = await Client.findOne({ email: email });
 
-        const ismatch = await bcrypt.compare(password, useremail.password)
+        const Cismatch = await bcrypt.compare(password, useremail.password)
 
       
 
 
-        if (ismatch) {
+        if (Cismatch) {
             // res.status(200).send('LOGIN SUCCESSFULLY')
             // console.log('LOGIN SUCCESSFULLY')
             //   const token1 = await RegUser.genAuthToken()
@@ -114,7 +114,7 @@ app.post('/clientLogin', async (req, res) => {
             res.cookie('jwt', token, {
                 httpOnly: true
             })
-            res.sendFile((path.join(__dirname, 'public/Freelancer.html'))); //Freelancers page would placed here instead of HOME PAGE
+            res.sendFile((path.join(__dirname, 'public/home.html'))); //Freelancers page would placed here instead of HOME PAGE
 
             console.log(` this is cokkie     ${req.cookies.jwt}`);
             console.log('token generated');
@@ -139,7 +139,7 @@ app.get('/Freelance', auth, (req, res) => {
 
 
 
-// Sign Up Process
+// Sign Up Process of Freelancers
 app.post('/Register', async (req, res) => {
 
     const { email } = req.body; // HTML "name" property will be set to email

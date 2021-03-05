@@ -72,7 +72,7 @@
 		<div class="navbar-right">                          
 		 <ul class="nav navbar-nav">
 		  <li><i class="fa fa-user"></i></li>
-		  <!-- <li class="active"><a href="login.html">Sign In/ Register </a></li> -->
+		  <li class="active"><a href="login.html">Sign In/ Register </a></li>
 		  
 		 <li class="dropdown mega-avatar">
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
@@ -124,38 +124,38 @@
 		  <div class="form-sign">
 		   <form method="post" action="http://127.0.0.1:80/Register">
 		    <div class="form-head">
-			 <h3>Register As A Freelancer</h3>
+			 <h3>Register</h3>
 			</div><!-- /.form-head -->
             <div class="form-body">            	
             	
 			
-             <div class="form-row" >
+             <div class="form-row">
 			  <div class="form-controls">
-			   <input type="text" name="fullname" required class="field" placeholder="Full Name "  >
+			   <input type="text" name="fullname"  required  class="field" placeholder="Full Name">
 			  </div><!-- /.form-controls -->
              </div><!-- /.form-row -->		
              
              <div class="form-row">
 			  <div class="form-controls">
-			   <input type="text" name="email" required  class="field" placeholder="Email">
+			   <input type="text" name="email"  required  class="field" placeholder="Email">
 			  </div><!-- /.form-controls -->
              </div><!-- /.form-row -->
              
 		     <div class="form-row">
 		      <div class="form-controls">
-			   <input type="text" name="username"       required  class="field" placeholder="Username">
+			   <input type="text" name="username"  required  class="field" placeholder="Username">
 			  </div><!-- /.form-controls -->
 		     </div><!-- /.form-row -->
 			 
              <div class="form-row">
 			  <div class="form-controls">
-			   <input type="password" name="password"  required     class="field" placeholder="Password">
+			   <input type="password" name="password"   required   class="field" placeholder="Password">
 			  </div><!-- /.form-controls -->
              </div><!-- /.form-row -->
 
 			 <div class="form-row">
 			  <div class="form-controls">
-			   <input type="password" name="confirmpass"  required     class="field" placeholder="Confirm Password">
+			   <input type="password" name="confirmpass" required  class="field" placeholder="Confirm Password">
 			  </div><!-- /.form-controls -->
              </div><!-- /.form-row -->
 			 
@@ -168,9 +168,7 @@
 			 <div class="form-foot">
 			  <div class="form-actions">
                <input type="hidden" name="token" value="<?php echo Token::generate(); ?>" />
-			   <input type="submit" name="register" value="Register AS A CLIENT" class="kafe-btn kafe-btn-default full-width">
-			   <!-- <input type="submit" name="register" value="Register AS A CLIENT" class="kafe-btn kafe-btn-default full-width"> -->
-			   <!-- <input type="submit" name="register" value="Register AS A FREELANCER" class="kafe-btn kafe-btn-default full-width"> -->
+			   <input type="submit" name="register" value="Register" class="kafe-btn kafe-btn-default full-width">
 			  </div><!-- /.form-actions -->
 			 </div><!-- /.form-foot -->
 		   </form>
