@@ -29,8 +29,9 @@ const FreelancersSchema=mongoose.Schema({
     },
     username:{
         type:String,
-        required:true,
-        unique:true
+        // required:true,
+        // unique:true
+        // sparse:true 
     },
     
     password:{
