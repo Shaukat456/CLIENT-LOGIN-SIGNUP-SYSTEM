@@ -12,7 +12,6 @@ const cookieParser = require('cookie-parser')
 const auth = require('../src/middleware/auth')
 const Client=require('./models/client')
 
-// app.use(express.static('assets'));
 
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
@@ -20,7 +19,6 @@ app.use(express.json())
 console.log(path.join(__dirname, 'public'));
 app.use(express.static(path.join(__dirname, "public")))
 app.use(cookieParser())
-// app.use(bodyparser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
     res.sendFile((path.join(__dirname, 'public/home.html')));
