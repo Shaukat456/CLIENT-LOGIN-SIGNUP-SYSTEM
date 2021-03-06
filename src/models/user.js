@@ -3,6 +3,9 @@ const mongoose=require('mongoose')
 const bcrpyt=require("bcryptjs")
 const { default: validator } = require('validator')
 const jwt=require('jsonwebtoken')
+const fs=require('fs')
+
+
 
 
 
@@ -74,6 +77,7 @@ FreelancersSchema.pre("save",async function(next){
         this.confirmpass=undefined;
     }
     next()
+    
 })
 
 

@@ -236,6 +236,16 @@ app.post('/login',auth ,async (req, res) => {
 
 })
 
+app.get('/logout',auth,(req,res)=>{
+try {
+    res.clearCookie('jwt')
+    res.sendFile((path.join(__dirname, 'public/home.html')));
+    console.log("logout successfully");
+} catch (error) {
+    res.status(404).send(error)
+}
+})
+
 
 
 
