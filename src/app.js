@@ -235,11 +235,19 @@ app.post('/login' ,async (req, res) => {
 
 })
 
-app.get('/logout',auth,(req,res)=>{
+app.get('/logout',auth,async(req,res)=>{
 try {
+    // console.log(req.user.jwt)
+
+    req.user.tokens=req.user.tokens.filter((currEleme)=>{
+        return currEleme.token !==req.token;
+    })
+
     res.clearCookie('jwt')
-    res.sendFile((path.join(__dirname, 'public/home.html')));
     console.log("logout successfully");
+    await req.user.save()
+    res.sendFile((path.join(__dirname, 'public/home.html')));
+
 } catch (error) {
     res.status(404).send(error)
 }
