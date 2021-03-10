@@ -7,6 +7,7 @@ const auth=async (req,res,next)=>{
         const token=req.cookies.jwt;
         const verifyUser=jwt.verify(token,"thisisakeyofuserathenticationandverification");
         console.log(verifyUser);
+
         //Freelancer's side
         const user=await User.findOne({_id:verifyUser._id})
         console.log(user);
