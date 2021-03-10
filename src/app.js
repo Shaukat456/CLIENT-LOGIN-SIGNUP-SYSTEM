@@ -197,7 +197,7 @@ app.post('/Register', async (req, res) => {
 
 // LOGIN SYSTEM 
 
-app.post('/login',auth ,async (req, res) => {
+app.post('/login' ,async (req, res) => {
     const { email, password } = req.body;
     try {
         const useremail = await User.findOne({ email: email });
