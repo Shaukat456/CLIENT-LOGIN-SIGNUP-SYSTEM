@@ -216,6 +216,7 @@ app.post('/login' ,async (req, res) => {
             console.log('login');
             const token = await useremail.genAuthToken()
             // console.log(token);
+            
             res.cookie('jwt', token, { 
                 expires:'2000',
 
@@ -225,7 +226,8 @@ app.post('/login' ,async (req, res) => {
             res.sendFile((path.join(__dirname, 'public/dashboard.html'))); //Freelancers page would placed here instead of HOME PAGE
 
             console.log(` this is cokkie     ${req.cookies.jwt}`);
-            // alert(` this is cokkie `);
+           
+            // alert(` this is cokkie `);=
             console.log('token generated');
         }
         else {
