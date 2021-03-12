@@ -216,7 +216,7 @@ app.post('/login' ,async (req, res) => {
             console.log('login');
             const token = await useremail.genAuthToken()
             // console.log(token);
-            
+
             res.cookie('jwt', token, { 
                 expires:'2000',
 
@@ -227,7 +227,7 @@ app.post('/login' ,async (req, res) => {
 
             console.log(` this is cokkie     ${req.cookies.jwt}`);
            
-            // alert(` this is cokkie `);=
+            // alert(` this is cokkie `)
             console.log('token generated');
         }
         else {
