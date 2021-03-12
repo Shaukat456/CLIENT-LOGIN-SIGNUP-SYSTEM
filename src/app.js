@@ -13,6 +13,7 @@ const auth = require('../src/middleware/auth')
 const Client=require('./models/client')
 
 
+
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
@@ -215,7 +216,10 @@ app.post('/login' ,async (req, res) => {
             console.log('login');
             const token = await useremail.genAuthToken()
             // console.log(token);
-            res.cookie('jwt', token, {
+            res.cookie('jwt', token, { 
+                expires:'2000',
+
+
                 httpOnly: true
             })
             res.sendFile((path.join(__dirname, 'public/dashboard.html'))); //Freelancers page would placed here instead of HOME PAGE
@@ -229,7 +233,10 @@ app.post('/login' ,async (req, res) => {
         }
 
     } catch (error) {
-        res.status(404).send('LOGIN ERROR')
+        setTimeout(() => {
+            res.status(404).sendFile((path.join(__dirname, 'public/login.html'))); //Freelancers page would placed here instead of HOME PAGE
+            
+        }, 2000);
 
     }
 
