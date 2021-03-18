@@ -215,16 +215,13 @@ app.post('/login' ,async (req, res) => {
 
             console.log('login');
             const token = await useremail.genAuthToken()
-            // console.log(token);
-
+            // console.log(token);  
+        
             res.cookie('jwt', token, { 
-                expires:'2000',
-
-
+                // expires:,
                 httpOnly: true
             })
             res.sendFile((path.join(__dirname, 'public/dashboard.html'))); //Freelancers page would placed here instead of HOME PAGE
-
             console.log(` this is cokkie     ${req.cookies.jwt}`);
            
             // alert(` this is cokkie `)
@@ -232,11 +229,14 @@ app.post('/login' ,async (req, res) => {
         }
         else {
             return res.send('INVALID PASSWORD')
+            alert('the username / password is not same')
+
         }
 
     } catch (error) {
         setTimeout(() => {
-            res.status(404).sendFile((path.join(__dirname, 'public/login.html'))); //Freelancers page would placed here instead of HOME PAGE
+            // res.status(404).sendFile((path.join(__dirname, 'public/login.html'))); //Freelancers page would placed here instead of HOME PAGE
+            // alert('the username / password is not same')
             
         }, 2000);
 
