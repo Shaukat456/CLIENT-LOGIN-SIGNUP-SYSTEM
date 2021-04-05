@@ -26,13 +26,7 @@ app.get('/', (req, res) => {
     // res.send('home.html must served here')
     // console.log((path.join(__dirname,'/home')));
     // console.log((path.join(__dirname,'../../public')));
-
-
-
-
 })
-
-
 
 app.post("/clientReg",auth,async(req,res)=>{
 
@@ -51,8 +45,6 @@ try {
             //IF NO ERROR THAN REGISTER THE USER
             const cRegUser = new Client(req.body)
             
-
-
             //generating Token
             const ftoken = await cRegUser.genAuthToken()
             console.log(ftoken);
@@ -64,11 +56,7 @@ try {
             res.sendFile((path.join(__dirname, 'public/home.html')));
             console.log([cSaved, 'USER REGISTERED'])
             // const token =await User.genAuthToken()
-
-
         }
-
-
 
         else {
             return res.send('Confirm password does not match Password')
@@ -82,13 +70,6 @@ try {
     res.send(error)
     console.log(error);
 }
-
-
-
-
-
-
-
 }
 )
 
@@ -113,6 +94,7 @@ app.post('/clientLogin', async (req, res) => {
             // console.log(token);
             res.cookie('jwt', token, {
                 httpOnly: true
+                
             })
             res.sendFile((path.join(__dirname, 'public/home.html'))); //Freelancers page would placed here instead of HOME PAGE
 
